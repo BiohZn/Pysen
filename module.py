@@ -35,6 +35,7 @@ class mod:
 			print "[!] Module not loaded: %s" % module
 
 	def reload_module(self, irc, module):
+		print "[!] Reloading module: %s" % module
 		try:
 			self.modules[module].reloading(irc)
 		except:
@@ -52,6 +53,11 @@ class mod:
 		for module in os.listdir(self.modules_dir):
 			if module[-3:] == '.py':
 				self.load_module(irc, module[:-3])
+
+	def reload_all(self, irc):
+		print "[!] Reloading all modules"
+		for module in self.modules.keys():
+			self.reload_module(irc, module)
 
 	def unload_all(self, irc):
 		print "[!] Unloading all modules"

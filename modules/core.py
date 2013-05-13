@@ -30,6 +30,7 @@ def version_handler(irc, who, sender, params):
 def module_handler(irc, who, sender, params):
 	if irc.users[sender['nick']].auth in irc.config.admins:
 		if len(params) == 2:
+
 			if params[0] == 'reload':
 				try:
 					irc.module.reload_module(irc, params[1])
@@ -50,6 +51,13 @@ def module_handler(irc, who, sender, params):
 					irc.notice(sender['nick'], "Module successfully loaded.")
 				except:
 					irc.notice(sender['nick'], "Module could not be loaded.")
+		elif len(params) == 1:
+			if params[0] == 'reloadall':
+				try:
+					irc.module.reload_all(irc)
+					irc.notice(sender['nick'], "Modules successfully reloaded.")
+				except:
+					irc.notice(sender['nick'], "Error.")
 		else:
 			irc.notice(sender['nick'], 'Usage: !module <load/unload> <module>')
 
