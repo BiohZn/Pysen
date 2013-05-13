@@ -1,6 +1,6 @@
-#!/usr/bin/python
-
 """ Module manager """
+
+__author__ = 'BiohZn'
 
 import os
 import sys

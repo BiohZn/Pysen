@@ -1,3 +1,5 @@
+__author__ = 'BiohZn'
+
 from usercl import ircuser
 
 def init(irc):

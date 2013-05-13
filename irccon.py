@@ -1,6 +1,6 @@
-#!/usr/bin/python
-
 """ IRC-Class, parsing server messages, sending to server etc.. """
+
+__author__ = 'BiohZn'
 
 import re
 import time

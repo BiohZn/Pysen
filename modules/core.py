@@ -1,4 +1,4 @@
-from usercl import ircuser
+__author__ = 'BiohZn'
 
 def init(irc):
 	irc.add_privmsg_handler(chr(1) + 'version' + chr(1), version_handler)

@@ -1,6 +1,6 @@
-#!/usr/bin/python
-
 """ Settings for the bot """
+
+__author__ = 'BiohZn'
 
 import ConfigParser
 

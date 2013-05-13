@@ -1,6 +1,6 @@
-#!/usr/bin/python
+# """ IRC User Class """
 
-""" IRC User Class """
+__author__ = 'BiohZn'
 
 class ircuser:
 	def __init__(self, nick):
