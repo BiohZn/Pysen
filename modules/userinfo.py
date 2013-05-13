@@ -114,5 +114,11 @@ def quit_handler(irc, sender, params):
 	del(irc.users[sender['nick']])
 
 def nick_handler(irc, sender, params):
+	print sender['nick']
+	print irc.config.nick
+	if sender['nick'] == irc.config.nick:
+		irc.config.nick = params[1]
+		irc.config.write()
 	irc.users[params[1]] = irc.users[sender['nick']]
+	irc.users[params[1]].nick = params[1]
 	del(irc.users[sender['nick']])

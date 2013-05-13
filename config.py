@@ -35,6 +35,11 @@ class cfg:
 
 		config = ConfigParser.RawConfigParser()
 		config.read('bot.config')
+
+		config.set('irc', 'nickname', self.nick)
+		config.set('irc', 'username', self.user)
+		config.set('irc', 'realname', self.real)
+
 		config.set('irc', 'channels', chans)
 		config.set('irc', 'admins', admins)
 

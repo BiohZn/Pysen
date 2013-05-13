@@ -5,6 +5,7 @@ def init(irc):
 	irc.add_privmsg_handler('!module', module_handler)
 	irc.add_privmsg_handler('!channel', channel_handler)
 	irc.add_privmsg_handler('!admin', admin_handler)
+	irc.add_privmsg_handler('!set', set_handler)
 	irc.add_handler('001', welcome_handler)
 	irc.add_handler('433', name_in_use_handler)
 	irc.add_handler('PING', ping_handler)
@@ -16,6 +17,7 @@ def kill(irc):
 	irc.rem_privmsg_handler('!module', module_handler)
 	irc.rem_privmsg_handler('!channel', channel_handler)
 	irc.rem_privmsg_handler('!admin', admin_handler)
+	irc.rem_privmsg_handler('!set', set_handler)
 	irc.rem_handler('001', welcome_handler)
 	irc.rem_handler('433', name_in_use_handler)
 	irc.rem_handler('PING', ping_handler)
@@ -81,7 +83,7 @@ def channel_handler (irc, who, sender, params):
 		if len(params) > 0:
 			if params[0] == 'list':
 				channels = ' | '.join(irc.config.chans)
-				irc.notice(sender['nick'], '%s | END OF LIST' % channels)
+				irc.notice(sender['nick'], '%s | End Of List' % channels)
 		else:
 			irc.notice(sender['nick'], 'Usage: !channel <join/part> #channel')
 
@@ -127,7 +129,19 @@ def admin_handler (irc, who, sender, params):
 		if len(params) > 0:
 			if params[0] == 'list':
 				admins = ' | '.join(irc.config.admins)
-				irc.notice(sender['nick'], '%s | END OF LIST' % admins)
+				irc.notice(sender['nick'], '%s | End Of List' % admins)
+
+def set_handler (irc, who, sender, params):
+	if irc.users[sender['nick']].auth in irc.config.admins:
+		if len(params) > 1:
+			if params[0] == 'nick':
+				irc.send('NICK %s' % params[1])
+			if params[0] == 'nick':
+				irc.config.user = params[1]
+				irc.config.write()
+			if params[0] == 'real':
+				irc.config.real = ' '.join(params[1:])
+				irc.config.write()
 
 def name_in_use_handler(irc, sender, params):
 	nick = "%s_" % irc.config.nick
