@@ -34,7 +34,7 @@ def module_handler(irc, who, sender, params):
 					irc.module.reload_module(irc, params[1])
 					irc.notice(sender['nick'], "Module successfully reloaded.")
 				except:
-					irc.notice(sender['nick'], "Module not found.")
+					irc.notice(sender['nick'], "Module could not be reloaded.")
 
 			if params[0] == 'unload':
 				try:
