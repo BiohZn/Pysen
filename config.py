@@ -20,6 +20,8 @@ class cfg:
 		self.host = config.get('irc', 'server')
 		self.port = config.getint('irc', 'port')
 
+		self.trigger = config.get('irc', 'trigger')
+
 		admins = config.get('irc', 'admins')
 		chans = config.get('irc', 'channels')
 
@@ -39,6 +41,8 @@ class cfg:
 		config.set('irc', 'nickname', self.nick)
 		config.set('irc', 'username', self.user)
 		config.set('irc', 'realname', self.real)
+
+		config.set('irc', 'trigger', self.trigger)
 
 		config.set('irc', 'channels', chans)
 		config.set('irc', 'admins', admins)

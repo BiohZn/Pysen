@@ -2,10 +2,10 @@ __author__ = 'BiohZn'
 
 def init(irc):
 	irc.add_privmsg_handler(chr(1) + 'version' + chr(1), version_handler)
-	irc.add_privmsg_handler('!module', module_handler)
-	irc.add_privmsg_handler('!channel', channel_handler)
-	irc.add_privmsg_handler('!admin', admin_handler)
-	irc.add_privmsg_handler('!set', set_handler)
+	irc.add_privmsg_handler(irc.config.trigger + 'module', module_handler)
+	irc.add_privmsg_handler(irc.config.trigger + 'channel', channel_handler)
+	irc.add_privmsg_handler(irc.config.trigger + 'admin', admin_handler)
+	irc.add_privmsg_handler(irc.config.trigger + 'set', set_handler)
 	irc.add_handler('001', welcome_handler)
 	irc.add_handler('433', name_in_use_handler)
 	irc.add_handler('PING', ping_handler)
@@ -14,10 +14,10 @@ def init(irc):
 
 def kill(irc):
 	irc.rem_privmsg_handler(chr(1) + 'version' + chr(1), version_handler)
-	irc.rem_privmsg_handler('!module', module_handler)
-	irc.rem_privmsg_handler('!channel', channel_handler)
-	irc.rem_privmsg_handler('!admin', admin_handler)
-	irc.rem_privmsg_handler('!set', set_handler)
+	irc.rem_privmsg_handler(irc.config.trigger + 'module', module_handler)
+	irc.rem_privmsg_handler(irc.config.trigger + 'channel', channel_handler)
+	irc.rem_privmsg_handler(irc.config.trigger + 'admin', admin_handler)
+	irc.rem_privmsg_handler(irc.config.trigger + 'set', set_handler)
 	irc.rem_handler('001', welcome_handler)
 	irc.rem_handler('433', name_in_use_handler)
 	irc.rem_handler('PING', ping_handler)

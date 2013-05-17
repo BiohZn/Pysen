@@ -3,8 +3,8 @@ __author__ = 'BiohZn'
 from usercl import ircuser
 
 def init(irc):
-	irc.add_privmsg_handler('!auth', auth_handler)
-	irc.add_privmsg_handler('!whoami', whoami_handler)
+	irc.add_privmsg_handler(irc.config.trigger + 'auth', auth_handler)
+	irc.add_privmsg_handler(irc.config.trigger + 'whoami', whoami_handler)
 	irc.add_handler('353', names_handler)
 	irc.add_handler('354', who_handler)
 	irc.add_handler('JOIN', join_handler)
@@ -14,8 +14,8 @@ def init(irc):
 	irc.add_handler('NICK', nick_handler)
 
 def kill(irc):
-	irc.rem_privmsg_handler('!auth', auth_handler)
-	irc.rem_privmsg_handler('!whoami', whoami_handler)
+	irc.rem_privmsg_handler(irc.config.trigger + 'auth', auth_handler)
+	irc.rem_privmsg_handler(irc.config.trigger + 'whoami', whoami_handler)
 	irc.rem_handler('353', names_handler)
 	irc.rem_handler('354', who_handler)
 	irc.rem_handler('JOIN', join_handler)
