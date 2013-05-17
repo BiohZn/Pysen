@@ -1,5 +1,7 @@
 __author__ = 'BiohZn'
 
+from subprocess import call
+
 def init(irc):
 	irc.add_privmsg_handler(chr(1) + 'version' + chr(1), version_handler)
 	irc.add_privmsg_handler(irc.config.trigger + 'module', module_handler)
@@ -58,6 +60,11 @@ def module_handler(irc, who, sender, params):
 					irc.notice(sender['nick'], "Modules successfully reloaded.")
 				except:
 					irc.notice(sender['nick'], "Error.")
+
+			if params[0] == 'update':
+				call('git', 'pull')
+				irc.module.reload_all(irc)
+				irc.notice(sender['nick'], 'Done.')
 		else:
 			irc.notice(sender['nick'], 'Usage: !module <load/unload> <module>')
 
