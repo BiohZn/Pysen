@@ -143,15 +143,22 @@ def set_handler (irc, who, sender, params):
 		if len(params) > 1:
 			if params[0] == 'nick':
 				irc.send('NICK %s' % params[1])
+				irc.notice(sender['nick'], 'Done.')
+
 			if params[0] == 'nick':
 				irc.config.user = params[1]
 				irc.config.write()
+				irc.notice(sender['nick'], 'Done.')
+
 			if params[0] == 'real':
 				irc.config.real = ' '.join(params[1:])
 				irc.config.write()
+				irc.notice(sender['nick'], 'Done.')
+
 			if params[0] == 'trigger':
 				irc.config.trigger = params[1]
 				irc.config.write()
+				irc.notice(sender['nick'], 'Done.')
 
 def name_in_use_handler(irc, sender, params):
 	nick = "%s_" % irc.config.nick

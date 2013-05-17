@@ -7,4 +7,3 @@ port = 6667
 admins = AdminAuth
 channels = #channel
 trigger = &
-
