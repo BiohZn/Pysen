@@ -62,7 +62,7 @@ def module_handler(irc, who, sender, params):
 					irc.notice(sender['nick'], "Error.")
 
 			if params[0] == 'update':
-				call('git', 'pull')
+				call(['git', 'pull'])
 				irc.module.reload_all(irc)
 				irc.notice(sender['nick'], 'Done.')
 		else:
