@@ -1,6 +1,7 @@
 __author__ = 'BiohZn'
 
 from subprocess import call
+import platform
 
 def init(irc):
 	irc.add_privmsg_handler(chr(1) + 'version' + chr(1), version_handler)
@@ -61,7 +62,7 @@ def module_handler(irc, who, sender, params):
 				except:
 					irc.notice(sender['nick'], "Error.")
 
-			if params[0] == 'update':
+			if params[0] == 'update' and platform.system() is not 'Windows':
 				call(['git', 'pull'])
 				irc.module.reload_all(irc)
 				irc.notice(sender['nick'], 'Done.')
