@@ -95,16 +95,16 @@ class irc:
 
 			colonpos = command.find(':')
 			if colonpos >= 0:
-				params = command[:colonpos-1].split(' ')
+				params = command[:colonpos-1].split()
 				params.append(command[colonpos+1:])
 			else:
-				params = command.split(' ')
+				params = command.split()
 
 			if params[0].upper() == "PRIVMSG":
 				chn = params[1]
-				if len(params[2].split(' ')) >= 2:
-					cmd = params[2].split(' ')[0]
-					prm = params[2].split(' ')[1:]
+				if len(params[2].split()) >= 2:
+					cmd = params[2].split()[0]
+					prm = params[2].split()[1:]
 				else:
 					cmd = params[2]
 					prm = ''
