@@ -41,14 +41,14 @@ def module_handler(irc, who, sender, params):
 				except:
 					irc.notice(sender['nick'], "Module could not be reloaded.")
 
-			if params[0] == 'unload':
+			elif params[0] == 'unload':
 				try:
 					irc.module.unload_module(irc, params[1])
 					irc.notice(sender['nick'], "Module successfully unloaded.")
 				except:
 					irc.notice(sender['nick'], "Module not found.")
 
-			if params[0] == 'load':
+			elif params[0] == 'load':
 				try:
 					irc.module.load_module(irc, params[1])
 					irc.notice(sender['nick'], "Module successfully loaded.")
@@ -62,7 +62,7 @@ def module_handler(irc, who, sender, params):
 				except:
 					irc.notice(sender['nick'], "Error.")
 
-			if params[0] == 'update' and platform.system() is not 'Windows':
+			elif params[0] == 'update' and platform.system() is not 'Windows':
 				call(['git', 'pull'])
 				irc.module.reload_all(irc)
 				irc.notice(sender['nick'], 'Done.')
@@ -146,19 +146,21 @@ def set_handler (irc, who, sender, params):
 				irc.send('NICK %s' % params[1])
 				irc.notice(sender['nick'], 'Done.')
 
-			if params[0] == 'nick':
+			elif params[0] == 'nick':
 				irc.config.user = params[1]
 				irc.config.write()
 				irc.notice(sender['nick'], 'Done.')
 
-			if params[0] == 'real':
+			elif params[0] == 'real':
 				irc.config.real = ' '.join(params[1:])
 				irc.config.write()
 				irc.notice(sender['nick'], 'Done.')
 
-			if params[0] == 'trigger':
+			elif params[0] == 'trigger':
+				irc.module.unload_all(irc)
 				irc.config.trigger = params[1]
 				irc.config.write()
+				irc.module.startup(irc)
 				irc.notice(sender['nick'], 'Done.')
 
 def name_in_use_handler(irc, sender, params):
