@@ -5,7 +5,6 @@ import platform
 
 def init(irc):
 	irc.add_privmsg_handler(chr(1) + 'version' + chr(1), version_handler)
-	irc.add_privmsg_handler(irc.config.trigger + 'module', module_handler)
 	irc.add_privmsg_handler(irc.config.trigger + 'channel', channel_handler)
 	irc.add_privmsg_handler(irc.config.trigger + 'admin', admin_handler)
 	irc.add_privmsg_handler(irc.config.trigger + 'set', set_handler)
@@ -17,7 +16,6 @@ def init(irc):
 
 def kill(irc):
 	irc.rem_privmsg_handler(chr(1) + 'version' + chr(1), version_handler)
-	irc.rem_privmsg_handler(irc.config.trigger + 'module', module_handler)
 	irc.rem_privmsg_handler(irc.config.trigger + 'channel', channel_handler)
 	irc.rem_privmsg_handler(irc.config.trigger + 'admin', admin_handler)
 	irc.rem_privmsg_handler(irc.config.trigger + 'set', set_handler)
@@ -29,45 +27,6 @@ def kill(irc):
 
 def version_handler(irc, who, sender, params):
 	irc.ctcp(sender['nick'], 'VERSION', 'Pysen v0.1')
-
-def module_handler(irc, who, sender, params):
-	if irc.users[sender['nick']].auth in irc.config.admins:
-		if len(params) == 2:
-
-			if params[0] == 'reload':
-				try:
-					irc.module.reload_module(irc, params[1])
-					irc.notice(sender['nick'], "Module successfully reloaded.")
-				except:
-					irc.notice(sender['nick'], "Module could not be reloaded.")
-
-			elif params[0] == 'unload':
-				try:
-					irc.module.unload_module(irc, params[1])
-					irc.notice(sender['nick'], "Module successfully unloaded.")
-				except:
-					irc.notice(sender['nick'], "Module not found.")
-
-			elif params[0] == 'load':
-				try:
-					irc.module.load_module(irc, params[1])
-					irc.notice(sender['nick'], "Module successfully loaded.")
-				except:
-					irc.notice(sender['nick'], "Module could not be loaded.")
-		elif len(params) == 1:
-			if params[0] == 'reloadall':
-				try:
-					irc.module.reload_all(irc)
-					irc.notice(sender['nick'], "Modules successfully reloaded.")
-				except:
-					irc.notice(sender['nick'], "Error.")
-
-			elif params[0] == 'update' and platform.system() is not 'Windows':
-				call(['git', 'pull'])
-				irc.module.reload_all(irc)
-				irc.notice(sender['nick'], 'Done.')
-		else:
-			irc.notice(sender['nick'], 'Usage: !module <load/unload> <module>')
 
 def channel_handler (irc, who, sender, params):
 	if irc.users[sender['nick']].auth in irc.config.admins:

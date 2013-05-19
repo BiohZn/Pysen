@@ -5,8 +5,10 @@ __author__ = 'BiohZn'
 import re
 import time
 import socket
+import platform
 from config import cfg
 from module import mod
+from subprocess import call
 
 class irc:
 
@@ -110,6 +112,8 @@ class irc:
 					prm = ''
 
 				try:
+					if cmd.lower() == self.config.trigger + 'module':
+						self.module_handler(chn, sender, prm)
 					for handler in self.privmsg_handlers[cmd.lower()]:
 						handler(self, chn, sender, prm)
 				except KeyError:
@@ -141,3 +145,42 @@ class irc:
 
 	def ctcp(self, to, type, line):
 		self.notice(to, '%s%s %s%s' % (chr(1), type, line, chr(1)))
+
+	def module_handler(self, who, sender, params):
+		if self.users[sender['nick']].auth in self.config.admins:
+			if len(params) == 2:
+
+				if params[0] == 'reload':
+					try:
+						self.module.reload_module(self, params[1])
+						self.notice(sender['nick'], "Module successfully reloaded.")
+					except:
+						self.notice(sender['nick'], "Module could not be reloaded.")
+
+				elif params[0] == 'unload':
+					try:
+						self.module.unload_module(self, params[1])
+						self.notice(sender['nick'], "Module successfully unloaded.")
+					except:
+						self.notice(sender['nick'], "Module not found.")
+
+				elif params[0] == 'load':
+					try:
+						self.module.load_module(self, params[1])
+						self.notice(sender['nick'], "Module successfully loaded.")
+					except:
+						self.notice(sender['nick'], "Module could not be loaded.")
+			elif len(params) == 1:
+				if params[0] == 'reloadall':
+					try:
+						self.module.reload_all(self)
+						self.notice(sender['nick'], "Modules successfully reloaded.")
+					except:
+						self.notice(sender['nick'], "Error.")
+
+				elif params[0] == 'update' and platform.system() is not 'Windows':
+					call(['git', 'pull'])
+					self.module.reload_all(self)
+					self.notice(sender['nick'], 'Done.')
+			else:
+				self.notice(sender['nick'], 'Usage: !module <load/unload> <module>')
