@@ -17,6 +17,9 @@ class cfg:
 		self.user = config.get('irc', 'username')
 		self.real = config.get('irc', 'realname')
 
+		self.authname = config.get('irc', 'authname')
+		self.authpass = config.get('irc', 'authpass')
+
 		self.host = config.get('irc', 'server')
 		self.port = config.getint('irc', 'port')
 
@@ -41,6 +44,9 @@ class cfg:
 		config.set('irc', 'nickname', self.nick)
 		config.set('irc', 'username', self.user)
 		config.set('irc', 'realname', self.real)
+
+		config.set('irc', 'authname', self.authname)
+		config.set('irc', 'authpass', self.authpass)
 
 		config.set('irc', 'trigger', self.trigger)
 

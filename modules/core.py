@@ -173,6 +173,8 @@ def ping_handler(irc, sender, params):
 		irc.send('PONG :%s' % params[1])
 
 def welcome_handler(irc, sender, params):
+	if irc.config.authname is not '' and irc.config.authpass is not '':
+		irc.msg('q@cserve.quakenet.org', 'auth %s %s' % (irc.config.authname, irc.config.authpass))
 	for channel in irc.config.chans:
 		irc.join(channel)
 
