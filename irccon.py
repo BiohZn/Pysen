@@ -15,17 +15,16 @@ class irc:
 	connected = False
 	users = {}
 	handlers = {}
-	privmsg_handlers = {}
+	privmsg_handlers = {'': []}
 	hostmask_regex = re.compile('^(.*)!(.*)@(.*)$')
 
 	def __init__(self):
 		self.config = cfg()
-		self.config.read()
 		self.module = mod()
 
 	def connect(self):
 		self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		self.socket.connect((self.config.host, self.config.port))
+		self.socket.connect((self.config.host, int(self.config.port)))
 		self.send('NICK :%s' % self.config.nick)
 		self.send('USER %s * * :%s' % (self.config.user, self.config.real))
 		self.module.startup(self)
@@ -50,7 +49,7 @@ class irc:
 
 	def rem_privmsg_handler(self, command, handler):
 		self.privmsg_handlers[command].remove(handler)
-		if len(self.privmsg_handlers[command]) == 0:
+		if len(self.privmsg_handlers[command]) == 0 and command != '':
 			del self.privmsg_handlers[command]
 
 	def parser_hostmask(self, hostmask):
@@ -114,6 +113,8 @@ class irc:
 				try:
 					if cmd.lower() == self.config.trigger + 'module':
 						self.module_handler(chn, sender, prm)
+					for handler in self.privmsg_handlers['']:
+						handler(self, chn, sender, params[2].split())
 					for handler in self.privmsg_handlers[cmd.lower()]:
 						handler(self, chn, sender, prm)
 				except KeyError:
