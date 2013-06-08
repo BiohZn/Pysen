@@ -2,7 +2,7 @@
 nick = PyseN^
 user = PyseN^
 real = PysenBot v0.1
-server = dk.quakenet.org
+host = dk.quakenet.org
 port = 6667
 
 authname =
