@@ -14,8 +14,7 @@ class mod:
 		pass
 
 	def loaded_module(self, irc, module):
-		if module in self.modules: return True
-		else: return False
+		return module in self.modules
 
 	def load_module(self, irc, module):
 		if not self.loaded_module(irc, module):
